@@ -82,5 +82,10 @@ export APACHE_RUN_GROUP=www-data
 export APACHE_LOG_DIR=/var/log/apache2
 export APACHE_PID_FILE=/var/run/apache2/apache2.pid
 
+# Ensure conflicting MPM modules are disabled before starting Apache
+echo "Enforcing mpm_prefork module..."
+a2dismod mpm_event mpm_worker || true
+a2enmod mpm_prefork || true
+
 # Start Apache in foreground
 exec apache2-foreground

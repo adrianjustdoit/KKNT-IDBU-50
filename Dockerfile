@@ -40,10 +40,9 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Fix MPM conflict: remove all MPM modules, then enable only prefork (required by mod_php)
-RUN rm -f /etc/apache2/mods-enabled/mpm_event.conf /etc/apache2/mods-enabled/mpm_event.load \
-         /etc/apache2/mods-enabled/mpm_worker.conf /etc/apache2/mods-enabled/mpm_worker.load \
-    && a2enmod mpm_prefork rewrite headers
+# Fix MPM conflict: disable all potential conflicting MPMs, then enable exactly one MPM
+RUN a2dismod mpm_event mpm_worker mpm_prefork || true
+RUN a2enmod mpm_prefork rewrite headers
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
