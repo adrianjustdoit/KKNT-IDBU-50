@@ -15,10 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // Security headers (CSP, X-Frame-Options, etc.)
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
 
-        // Force HTTPS in production
-        if (env('APP_ENV') === 'production') {
-            $middleware->append(\Illuminate\Http\Middleware\TrustProxies::class);
-        }
+        // Trust all proxies (required for Railway/Heroku to generate HTTPS links)
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
