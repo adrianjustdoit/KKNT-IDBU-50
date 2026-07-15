@@ -34,6 +34,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     unzip \
+    dos2unix \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_sqlite pdo_mysql mbstring exif pcntl bcmath gd zip \
     && apt-get clean \
@@ -60,15 +61,18 @@ COPY . .
 # Copy built frontend assets from Stage 1
 COPY --from=frontend-builder /app/public/build ./public/build
 
+# Create .env from example (Docker build needs it for artisan commands)
+RUN cp .env.example .env
+
 # Generate optimized autoloader
 RUN composer dump-autoload --optimize
 
 # Copy Apache configuration
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
-# Copy startup script
+# Copy startup script and fix Windows line endings
 COPY docker/start.sh /usr/local/bin/start.sh
-RUN chmod +x /usr/local/bin/start.sh
+RUN dos2unix /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html \
