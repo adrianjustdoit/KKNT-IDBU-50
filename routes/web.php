@@ -14,6 +14,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product/{product}', [HomeController::class, 'productDetail'])->name('product.detail');
 Route::get('/produk/{product:slug}', [ProductShowController::class, 'show'])->name('product.3d');
 Route::get('/kompos-eksplorasi', [ProductShowController::class, 'eksplorasiKompos'])->name('kompos.eksplorasi');
+Route::get('/coaster-eksplorasi', [ProductShowController::class, 'eksplorasiCoaster'])->name('coaster.eksplorasi');
 Route::get('/struktur-organisasi', [HomeController::class, 'struktur'])->name('struktur');
 
 // News routes

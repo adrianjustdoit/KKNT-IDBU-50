@@ -1,5 +1,5 @@
 /**
- * Kompos Eksplorasi — Scroll-Scrubbing Image Sequence
+ * Generic Scroll-Scrubbing Image Sequence
  * ====================================================
  * Preloads PNG frames and renders them to a canvas
  * based on scroll position for a smooth "3D exploded view" experience.
@@ -9,24 +9,29 @@
     'use strict';
 
     // ─── Config ───
-    const config = window.komposConfig || { totalFrames: 100, framePath: '/images/kompos-frames' };
+    const config = window.seqConfig || { 
+        totalFrames: 100, 
+        framePath: '/images/frames',
+        prefix: 'kompos' 
+    };
     const TOTAL_FRAMES = config.totalFrames;
     const FRAME_PATH = config.framePath;
+    const pfx = config.prefix;
 
     // ─── DOM Elements ───
-    const canvas = document.getElementById('komposCanvas');
+    const canvas = document.querySelector(`.${pfx}-canvas`);
     const ctx = canvas ? canvas.getContext('2d') : null;
-    const scrollContainer = document.getElementById('komposScroll');
-    const loader = document.getElementById('komposLoader');
-    const loadProgress = document.getElementById('loadProgress');
-    const loadPercent = document.getElementById('loadPercent');
-    const progressFill = document.getElementById('progressFill');
-    const progressLabel = document.getElementById('progressLabel');
-    const callouts = document.getElementById('komposCallouts');
-    const scrollHint = document.getElementById('scrollHint');
-    const header = document.getElementById('komposHeader');
-    const bottom = document.getElementById('komposBottom');
-    const fallback = document.getElementById('komposFallback');
+    const scrollContainer = document.querySelector(`.${pfx}-scroll`);
+    const loader = document.querySelector(`.${pfx}-loader`);
+    const loadProgress = document.querySelector(`.${pfx}-loader__fill`);
+    const loadPercent = document.querySelector(`.${pfx}-loader__percent`);
+    const progressFill = document.querySelector(`.${pfx}-progress__fill`);
+    const progressLabel = document.querySelector(`.${pfx}-progress__label`);
+    const callouts = document.querySelector(`.${pfx}-callouts`);
+    const scrollHint = document.querySelector(`.${pfx}-header__scroll-hint`) || document.querySelector(`.${pfx}-scroll-hint`);
+    const header = document.querySelector(`.${pfx}-header`);
+    const bottom = document.querySelector(`.${pfx}-bottom`);
+    const fallback = document.querySelector(`.${pfx}-fallback`);
 
     // ─── State ───
     const frames = [];
@@ -39,7 +44,8 @@
 
     // ─── Frame URL Generator ───
     function getFrameUrl(index) {
-        const num = String(index + 1).padStart(3, '0');
+        const num = String(index).padStart(3, '0');
+        // Handle ezgif frames if needed (fallback to direct format)
         return `${FRAME_PATH}/frame-${num}.png`;
     }
 
@@ -163,12 +169,12 @@
 
         // Show callouts when near the end (>80%)
         if (callouts) {
-            callouts.classList.toggle('kompos-callouts--visible', scrollFraction > 0.80);
+            callouts.classList.toggle(`${pfx}-callouts--visible`, scrollFraction > 0.80);
         }
 
         // Show bottom CTA at >92%
         if (bottom) {
-            bottom.classList.toggle('kompos-bottom--visible', scrollFraction > 0.92);
+            bottom.classList.toggle(`${pfx}-bottom--visible`, scrollFraction > 0.92);
         }
     }
 
@@ -191,7 +197,7 @@
         setupCanvas();
 
         // Show loader
-        if (loader) loader.classList.add('kompos-loader--active');
+        if (loader) loader.classList.add(`${pfx}-loader--active`);
 
         // Preload all frames
         await preloadFrames();
@@ -204,7 +210,7 @@
 
         // Hide loader
         if (loader) {
-            loader.classList.add('kompos-loader--done');
+            loader.classList.add(`${pfx}-loader--done`);
             setTimeout(() => {
                 loader.style.display = 'none';
             }, 600);

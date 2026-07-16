@@ -8,7 +8,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/product-3d.js',
-                'resources/js/kompos-eksplorasi.js',
+                'resources/js/scroll-sequence.js',
             ],
             refresh: true,
         }),

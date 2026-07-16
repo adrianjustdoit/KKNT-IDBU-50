@@ -374,6 +374,15 @@
                                     <span class="material-symbols-outlined">layers</span>
                                 </a>
                                 @endif
+                                @if(str_contains(strtolower($product->name), 'coaster') || str_contains(strtolower($product->name), 'terrazzo'))
+                                <a href="{{ route('coaster.eksplorasi') }}"
+                                   class="product-card__3d-btn"
+                                   title="Eksplorasi Coaster"
+                                   onclick="event.stopPropagation();"
+                                   style="background: linear-gradient(135deg, var(--color-forest), var(--color-amber)); color: white;">
+                                    <span class="material-symbols-outlined">layers</span>
+                                </a>
+                                @endif
                                 @if($product->model_type)
                                 <a href="{{ route('product.3d', $product->slug) }}"
                                    class="product-card__3d-btn"

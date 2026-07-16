@@ -26,4 +26,13 @@ class ProductShowController extends Controller
             'totalFrames' => $totalFrames,
         ]);
     }
+
+    public function eksplorasiCoaster()
+    {
+        $totalFrames = count(glob(public_path('images/coaster-frames/frame-*.png')));
+
+        return view('coaster-eksplorasi', [
+            'totalFrames' => $totalFrames,
+        ]);
+    }
 }

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Eksplorasi 7 lapisan pupuk kompos Rowosari — scroll untuk melihat proses produksi kompos berlapis dari wadah utuh hingga exploded view.">
-    <title>Eksplorasi Pupuk Kompos — KKN-T IDBU 50 ROWOSARI</title>
+    <meta name="description" content="Eksplorasi 5 lapisan EcoTerrazzo Coaster — scroll untuk melihat proses produksi coaster berlapis dari produk utuh hingga exploded view.">
+    <title>Eksplorasi EcoTerrazzo Coaster — KKN-T IDBU 50 ROWOSARI</title>
 
     {{-- Google Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,10 +22,10 @@
     <div class="kompos-loader" id="komposLoader">
         <div class="kompos-loader__inner">
             <div class="kompos-loader__icon">
-                <span class="material-symbols-outlined">compost</span>
+                <span class="material-symbols-outlined">coffee</span>
             </div>
-            <h2 class="kompos-loader__title">Memuat Eksplorasi Kompos</h2>
-            <p class="kompos-loader__subtitle">Menyiapkan 7 lapisan kompos untuk dijelajahi...</p>
+            <h2 class="kompos-loader__title">Memuat Eksplorasi Coaster</h2>
+            <p class="kompos-loader__subtitle">Menyiapkan 5 lapisan EcoTerrazzo untuk dijelajahi...</p>
             <div class="kompos-loader__bar">
                 <div class="kompos-loader__fill" id="loadProgress"></div>
             </div>
@@ -45,8 +45,8 @@
             <span class="material-symbols-outlined">layers</span>
             Scroll Exploration
         </span>
-        <h1 class="kompos-header__title">Eksplorasi Pupuk Kompos</h1>
-        <p class="kompos-header__subtitle">Scroll perlahan untuk melihat 7 lapisan kompos yang membentuk pupuk organik berkualitas tinggi</p>
+        <h1 class="kompos-header__title">Eksplorasi EcoTerrazzo Coaster</h1>
+        <p class="kompos-header__subtitle">Scroll perlahan untuk melihat 5 lapisan penyusun produk eco-terrazzo daur ulang</p>
         <div class="kompos-header__scroll-hint" id="scrollHint">
             <span class="material-symbols-outlined kompos-header__scroll-icon">expand_more</span>
             <span>Scroll ke bawah</span>
@@ -68,8 +68,8 @@
 
         {{-- Static fallback for prefers-reduced-motion --}}
         <img class="kompos-fallback" id="komposFallback"
-             src="{{ asset('images/kompos-frames/frame-100.png') }}"
-             alt="Exploded view pupuk kompos 7 lapisan">
+             src="{{ asset('images/coaster-frames/frame-100.png') }}"
+             alt="Exploded view EcoTerrazzo Coaster">
 
         {{-- Scroll spacer to create scroll distance --}}
         <div class="kompos-spacer"></div>
@@ -79,56 +79,40 @@
             <div class="kompos-callout" data-layer="1">
                 <div class="kompos-callout__number">1</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🌾 Sekam</h3>
-                    <p class="kompos-callout__desc">Menjaga sirkulasi udara di dalam wadah kompos, mempercepat proses dekomposisi secara aerobik.</p>
+                    <h3 class="kompos-callout__name">✨ Resin Top-Coat</h3>
+                    <p class="kompos-callout__desc">Lapisan pelindung bening (clear cast) yang tahan panas dan goresan, menjaga motif tetap mengkilap dan awet digunakan untuk gelas panas.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="2">
                 <div class="kompos-callout__number">2</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🪨 Granit / Kerikil</h3>
-                    <p class="kompos-callout__desc">Berfungsi sebagai drainase dan filter alami, mencegah genangan air yang bisa menghambat pengomposan.</p>
+                    <h3 class="kompos-callout__name">🎨 Terrazzo Speckle</h3>
+                    <p class="kompos-callout__desc">Serpihan dari limbah plastik, keramik, dan kaca yang dicacah dan disusun acak untuk menciptakan pola unik pada setiap coaster.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="3">
                 <div class="kompos-callout__number">3</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">💧 Bioaqua</h3>
-                    <p class="kompos-callout__desc">Aktivator mikroorganisme pengurai bahan organik, mempercepat proses fermentasi dan dekomposisi.</p>
+                    <h3 class="kompos-callout__name">🖌️ Pigmen Tint</h3>
+                    <p class="kompos-callout__desc">Lapisan pewarna solid yang memberi kontras pada serpihan terrazzo, terbuat dari pigmen ramah lingkungan yang aman.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="4">
                 <div class="kompos-callout__number">4</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🥬 Sampah Sayur</h3>
-                    <p class="kompos-callout__desc">Sumber nitrogen utama untuk nutrisi kompos, memberikan bahan organik kaya nutrisi bagi tanaman.</p>
+                    <h3 class="kompos-callout__name">🪨 Resin Dasar</h3>
+                    <p class="kompos-callout__desc">Struktur penopang utama yang kokoh, dicetak menggunakan eco-resin untuk memberikan beban dan stabilitas pada coaster.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="5">
                 <div class="kompos-callout__number">5</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🍂 Daun Kering</h3>
-                    <p class="kompos-callout__desc">Sumber karbon penting yang menyeimbangkan rasio C/N, memastikan pengomposan berjalan optimal.</p>
-                </div>
-            </div>
-
-            <div class="kompos-callout" data-layer="6">
-                <div class="kompos-callout__number">6</div>
-                <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🐐 Kotoran Kambing</h3>
-                    <p class="kompos-callout__desc">Memperkaya nutrisi kompos dan mempercepat proses fermentasi berkat kandungan bakteri alami.</p>
-                </div>
-            </div>
-
-            <div class="kompos-callout" data-layer="7">
-                <div class="kompos-callout__number">7</div>
-                <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🟤 Tanah</h3>
-                    <p class="kompos-callout__desc">Lapisan dasar yang menyediakan bakteri pengurai alami dan fondasi struktur kompos keseluruhan.</p>
+                    <h3 class="kompos-callout__name">🪵 Alas Cork</h3>
+                    <p class="kompos-callout__desc">Bantalan gabus alami di bagian bawah untuk mencegah slip (anti-licin) dan melindungi permukaan meja dari goresan.</p>
                 </div>
             </div>
         </div>
@@ -138,10 +122,10 @@
     <div class="kompos-bottom" id="komposBottom">
         <div class="kompos-bottom__inner">
             <div class="kompos-bottom__info">
-                <span class="material-symbols-outlined kompos-bottom__icon">eco</span>
+                <span class="material-symbols-outlined kompos-bottom__icon">recycling</span>
                 <div>
-                    <h3>100% Bahan Organik & Alami</h3>
-                    <p>Setiap lapisan dipilih dengan cermat untuk menghasilkan pupuk kompos berkualitas tinggi yang ramah lingkungan.</p>
+                    <h3>Estetika Daur Ulang Modern</h3>
+                    <p>Produk bernilai fungsional yang mengubah sampah rumah tangga menjadi karya seni eco-living untuk meja Anda.</p>
                 </div>
             </div>
             <a href="{{ route('home') }}#katalog" class="kompos-bottom__btn">
@@ -155,7 +139,7 @@
     <script>
         window.seqConfig = {
             totalFrames: {{ $totalFrames }},
-            framePath: '{{ asset("images/kompos-frames") }}',
+            framePath: '{{ asset("images/coaster-frames") }}',
             prefix: 'kompos'
         };
     </script>
