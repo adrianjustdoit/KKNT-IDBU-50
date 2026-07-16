@@ -1843,18 +1843,39 @@ p {
 }
 
 @media (max-width: 768px) {
+    /* Mobile Overlay */
+    .navbar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all var(--transition-base);
+    }
+
+    .navbar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Mobile Sidebar Menu */
     .navbar__nav {
         position: fixed;
         top: 0;
-        right: -300px;
-        width: 280px;
+        right: -320px;
+        width: 300px;
         height: 100vh;
         background: var(--color-white);
         flex-direction: column;
         padding: var(--space-4xl) var(--space-xl);
-        box-shadow: var(--shadow-xl);
-        transition: right var(--transition-base);
+        box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         z-index: 1001;
+        border-top-left-radius: var(--radius-xl);
+        border-bottom-left-radius: var(--radius-xl);
+        overflow-y: auto;
     }
 
     .navbar__nav.open {
@@ -1863,12 +1884,17 @@ p {
 
     .navbar__nav .navbar__link {
         color: var(--color-charcoal);
-        padding: var(--space-md);
+        padding: var(--space-md) var(--space-lg);
         border-radius: var(--radius-md);
-        font-size: 1rem;
+        font-size: 1.05rem;
+        font-weight: 700;
+        width: 100%;
+        display: block;
+        margin-bottom: var(--space-xs);
     }
 
-    .navbar__nav .navbar__link:hover {
+    .navbar__nav .navbar__link:hover,
+    .navbar__nav .navbar__link.active {
         background: var(--color-forest-50);
         color: var(--color-forest);
     }
@@ -1876,6 +1902,21 @@ p {
     .navbar__toggle {
         display: flex;
         z-index: 1002;
+    }
+
+    /* Hamburger to X Animation */
+    .navbar__toggle.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+        background: var(--color-charcoal) !important;
+    }
+
+    .navbar__toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .navbar__toggle.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+        background: var(--color-charcoal) !important;
     }
 
     .hero__title {

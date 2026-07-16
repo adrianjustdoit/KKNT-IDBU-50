@@ -310,19 +310,32 @@ function initCounterAnimation() {
 function initMobileMenu() {
     const toggle = document.querySelector('.navbar__toggle');
     const nav = document.querySelector('.navbar__nav');
+    const overlay = document.getElementById('navOverlay');
     if (!toggle || !nav) return;
 
-    toggle.addEventListener('click', () => {
-        nav.classList.toggle('open');
+    function closeMenu() {
+        nav.classList.remove('open');
+        toggle.classList.remove('active');
+        if (overlay) overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function toggleMenu() {
+        const isOpen = nav.classList.toggle('open');
         toggle.classList.toggle('active');
-    });
+        if (overlay) overlay.classList.toggle('active', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    toggle.addEventListener('click', toggleMenu);
+
+    if (overlay) {
+        overlay.addEventListener('click', closeMenu);
+    }
 
     // Close when clicking a link
     nav.querySelectorAll('.navbar__link').forEach((link) => {
-        link.addEventListener('click', () => {
-            nav.classList.remove('open');
-            toggle.classList.remove('active');
-        });
+        link.addEventListener('click', closeMenu);
     });
 }
 

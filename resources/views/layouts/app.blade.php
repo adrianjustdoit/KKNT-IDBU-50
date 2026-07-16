@@ -19,6 +19,7 @@
 </head>
 <body>
     {{-- Navbar --}}
+    <div class="navbar-overlay" id="navOverlay"></div>
     <nav class="navbar {{ request()->routeIs('home', 'struktur') ? 'navbar--transparent is-transparent' : 'navbar--solid' }}" id="navbar">
         <div class="navbar__inner">
             <a href="{{ route('home') }}" class="navbar__brand">
