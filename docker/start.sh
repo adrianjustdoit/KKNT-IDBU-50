@@ -50,6 +50,12 @@ if [ ! -f "$DB_PATH" ]; then
     FRESH_DB=true
 fi
 
+# Ensure correct permissions for the database file
+if [ -f "$DB_PATH" ]; then
+    chown www-data:www-data "$DB_PATH"
+    chmod 664 "$DB_PATH"
+fi
+
 # Make database directory writable (SQLite needs this for WAL journal)
 chown -R www-data:www-data /var/www/html/database
 chmod -R 775 /var/www/html/database
