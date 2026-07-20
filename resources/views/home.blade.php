@@ -196,7 +196,10 @@
         <div class="section__header" data-aos="fade-up">
             <span class="section__label">📰 Update KKN</span>
             <h2 class="section__title">Berita Harian</h2>
-            <p class="section__subtitle">Ikuti perkembangan program dan kegiatan KKN-T IDBU 50 di Kelurahan Rowosari</p>
+            <p class="section__subtitle" style="margin-bottom: var(--space-md);">Ikuti perkembangan program dan kegiatan KKN-T IDBU 50 di Kelurahan Rowosari</p>
+            <a href="{{ route('news.index') }}" class="btn btn-outline-dark" style="border-radius: 30px; padding: 6px 16px; display: inline-flex; align-items: center; gap: 4px; font-size: 0.9rem; color: var(--color-forest); border-color: var(--color-forest);">
+                Lihat Semua Berita <span class="material-symbols-outlined" style="font-size: 1.1rem;">arrow_forward</span>
+            </a>
         </div>
 
         @if(isset($latestNews) && $latestNews->count() > 0)
@@ -231,13 +234,7 @@
                 @endforeach
             </div>
 
-            @if(\App\Models\News::published()->count() > 5)
-                <div style="text-align: center; margin-top: var(--space-2xl);" data-aos="fade-up">
-                    <a href="{{ route('news.index') }}" class="btn btn-outline btn-lg">
-                        Lihat Semua Berita <span class="material-symbols-outlined" style="margin-left: 8px;">arrow_forward</span>
-                    </a>
-                </div>
-            @endif
+
         @else
             <div style="text-align: center; padding: 40px 20px; background: rgba(255,255,255,0.5); border-radius: var(--radius-lg); backdrop-filter: blur(5px);" data-aos="fade-up">
                 <span class="material-symbols-outlined" style="font-size: 3rem; color: var(--color-wood); opacity: 0.5; margin-bottom: 10px;">hourglass_empty</span>
