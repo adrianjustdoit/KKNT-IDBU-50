@@ -25,10 +25,12 @@ return [
     'settings'      => [
         'default' => [
             'HTML.Doctype' => 'HTML 4.01 Transitional',
-            'HTML.Allowed' => 'p,strong,em,u,h2,h3,ul,ol,li,blockquote,a[href|title|target|rel],img[src|alt|width|height|style],br',
-            'CSS.AllowedProperties' => 'font,font-size,font-weight,font-style,font-family,text-decoration,padding-left,color,background-color,text-align,width,height,margin',
+            'HTML.Allowed' => 'p,strong,em,u,h2,h3,ul,ol,li,blockquote,a[href|title|target|rel],img[src|alt|width|height|style|class],br',
+            'CSS.AllowedProperties' => 'font,font-size,font-weight,font-style,font-family,text-decoration,padding-left,color,background-color,text-align,width,height,margin,max-width',
             'AutoFormat.AutoParagraph' => true,
             'AutoFormat.RemoveEmpty'   => true,
+            'URI.AllowedSchemes'       => ['http' => true, 'https' => true, 'data' => true],
+            'URI.DisableExternalResources' => false,
         ],
         'test'    => [
             'Attr.EnableID' => 'true',

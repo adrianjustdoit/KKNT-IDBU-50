@@ -22,6 +22,7 @@ mkdir -p /var/www/html/storage/app/public/news-content
 mkdir -p /var/www/html/storage/app/public/gallery
 mkdir -p /var/www/html/storage/app/public/members
 mkdir -p /var/www/html/storage/app/public/settings
+mkdir -p /var/www/html/storage/app/purifier
 mkdir -p /var/www/html/storage/framework/cache/data
 mkdir -p /var/www/html/storage/framework/sessions
 mkdir -p /var/www/html/storage/framework/views

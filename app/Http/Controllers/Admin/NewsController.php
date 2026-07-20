@@ -97,7 +97,9 @@ class NewsController extends Controller
         ]);
 
         $path = $request->file('image')->store('news-content', 'public');
-        $url = asset('storage/' . $path);
+
+        // Return relative URL so it works regardless of APP_URL config
+        $url = '/storage/' . $path;
 
         return response()->json(['url' => $url]);
     }

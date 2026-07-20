@@ -151,39 +151,56 @@
 
                 input.onchange = function() {
                     var file = input.files[0];
-                    if (file) {
-                        var formData = new FormData();
-                        formData.append('image', file);
-                        
-                        // Setup CSRF token for fetch
-                        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    if (!file) return;
 
-                        // Ubah tombol jadi loading
-                        document.getElementById('submitBtn').disabled = true;
-
-                        fetch('{{ route("admin.news.upload-image") }}', {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': csrfToken
-                            },
-                            body: formData
-                        })
-                        .then(response => response.json())
-                        .then(result => {
-                            if (result.url) {
-                                var range = quill.getSelection();
-                                var index = range ? range.index : quill.getLength();
-                                quill.insertEmbed(index, 'image', result.url);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error uploading image:', error);
-                            alert('Gagal mengunggah gambar sisipan.');
-                        })
-                        .finally(() => {
-                            document.getElementById('submitBtn').disabled = false;
-                        });
+                    // Client-side file size check (max 5MB)
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('Ukuran gambar terlalu besar. Maksimal 5MB.');
+                        return;
                     }
+
+                    var formData = new FormData();
+                    formData.append('image', file);
+                    
+                    // Setup CSRF token for fetch
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                    // Disable submit button during upload
+                    var submitBtn = document.getElementById('submitBtn');
+                    var originalText = submitBtn.textContent;
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Mengunggah gambar...';
+
+                    fetch('{{ route("admin.news.upload-image") }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(err => {
+                                throw new Error(err.message || 'Upload gagal (HTTP ' + response.status + ')');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(result => {
+                        if (result.url) {
+                            var range = quill.getSelection();
+                            var index = range ? range.index : quill.getLength();
+                            quill.insertEmbed(index, 'image', result.url);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error uploading image:', error);
+                        alert('Gagal mengunggah gambar: ' + error.message);
+                    })
+                    .finally(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalText;
+                    });
                 };
             }
         });
