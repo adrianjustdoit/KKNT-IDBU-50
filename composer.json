@@ -9,6 +9,7 @@
         "php": "^8.3",
         "intervention/image": "^4.2",
         "laravel/framework": "^13.8",
+        "laravel/scout": "^11.3",
         "laravel/tinker": "^3.0",
         "mews/purifier": "^3.4"
     },

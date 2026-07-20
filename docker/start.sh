@@ -41,6 +41,7 @@ DB_PATH="/var/www/html/storage/app/database.sqlite"
 # Force Laravel to use this path
 export DB_DATABASE="$DB_PATH"
 export DB_CONNECTION="sqlite"
+export SCOUT_DRIVER="database"
 
 FRESH_DB=false
 if [ ! -f "$DB_PATH" ]; then

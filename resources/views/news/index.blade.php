@@ -12,18 +12,33 @@
 
 <section class="section section--sand" style="background: var(--color-sand); min-height: 60vh;">
     <div class="container">
-        
+        <div style="max-width: 600px; margin: 0 auto var(--space-xl) auto;" data-aos="fade-up">
+            <form action="{{ route('news.index') }}" method="GET" style="display: flex; gap: 8px;">
+                @if(request('category'))
+                    <input type="hidden" name="category" value="{{ request('category') }}">
+                @endif
+                @if(request('tag'))
+                    <input type="hidden" name="tag" value="{{ request('tag') }}">
+                @endif
+                <div style="flex: 1; position: relative;">
+                    <span class="material-symbols-outlined" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--color-slate); opacity: 0.7;">search</span>
+                    <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari berita atau kegiatan..." class="form-control" style="width: 100%; padding-left: 48px; border-radius: 30px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                </div>
+                <button type="submit" class="btn btn-primary" style="border-radius: 30px; padding: 0 24px;">Cari</button>
+            </form>
+        </div>
+
         <div style="margin-bottom: var(--space-xl); display: flex; gap: var(--space-md); flex-wrap: wrap; justify-content: center;" data-aos="fade-up">
-            <a href="{{ route('news.index') }}" class="btn {{ !request('category') && !request('tag') ? 'btn-primary' : 'btn-outline' }}" style="border-radius: 30px; padding: 8px 20px;">Semua Berita</a>
+            <a href="{{ route('news.index') }}" class="btn {{ !request('category') && !request('tag') && !request('q') ? 'btn-primary' : 'btn-outline' }}" style="border-radius: 30px; padding: 8px 20px;">Semua Berita</a>
             
             @foreach($categories as $cat)
-                <a href="{{ route('news.index', ['category' => $cat->slug]) }}" class="btn {{ request('category') == $cat->slug ? 'btn-primary' : 'btn-outline' }}" style="border-radius: 30px; padding: 8px 20px;">
+                <a href="{{ route('news.index', ['category' => $cat->slug, 'q' => request('q')]) }}" class="btn {{ request('category') == $cat->slug ? 'btn-primary' : 'btn-outline' }}" style="border-radius: 30px; padding: 8px 20px;">
                     <span class="material-symbols-outlined" style="font-size: 1.2rem; margin-right: 4px; vertical-align: middle;">folder</span> {{ $cat->name }}
                 </a>
             @endforeach
 
             @if(request('tag'))
-                <a href="{{ route('news.index') }}" class="btn btn-primary" style="border-radius: 30px; padding: 8px 20px; background: var(--color-forest-dark);">
+                <a href="{{ route('news.index', ['q' => request('q')]) }}" class="btn btn-primary" style="border-radius: 30px; padding: 8px 20px; background: var(--color-forest-dark);">
                     #{{ request('tag') }} <span class="material-symbols-outlined" style="font-size: 1.2rem; margin-left: 4px; vertical-align: middle;">close</span>
                 </a>
             @endif
