@@ -83,10 +83,10 @@
                 @enderror
             </div>
 
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom: 3rem;">
                 <label for="content">Isi Berita <span class="text-danger">*</span></label>
                 <input type="hidden" name="content" id="content" value="{{ old('content', $news->content) }}">
-                <div id="editor-container" style="height: 400px;">{!! old('content', $news->content) !!}</div>
+                <div id="editor-container" style="min-height: 400px; padding-bottom: 20px;">{!! old('content', $news->content) !!}</div>
                 @error('content')
                     <div class="text-danger mt-1" style="font-size: 0.85rem;">{{ $message }}</div>
                 @enderror

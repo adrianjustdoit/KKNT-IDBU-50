@@ -36,10 +36,15 @@ chmod -R 775 /var/www/html/storage
 chmod -R 775 /var/www/html/bootstrap/cache
 
 # Create SQLite database if it doesn't exist
-DB_PATH="/var/www/html/database/database.sqlite"
+# We place it in storage/app so it persists on Railway volume
+DB_PATH="/var/www/html/storage/app/database.sqlite"
+# Force Laravel to use this path
+export DB_DATABASE="$DB_PATH"
+export DB_CONNECTION="sqlite"
+
 FRESH_DB=false
 if [ ! -f "$DB_PATH" ]; then
-    echo "Creating SQLite database..."
+    echo "Creating SQLite database at $DB_PATH..."
     touch "$DB_PATH"
     FRESH_DB=true
 fi

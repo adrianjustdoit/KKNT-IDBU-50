@@ -198,6 +198,19 @@ class DatabaseSeeder extends Seeder
             . '<p>Rangkaian kegiatan di minggu pertama ini kemudian ditutup dengan penuh semangat melalui acara Senam Pagi bersama warga RT 02 RW 01 pada hari Minggu, 12 Juli 2026. Antusiasme warga yang hadir menjadikan suasana sangat meriah. Kegiatan ini tidak hanya bermanfaat untuk menjaga kebugaran jasmani, tetapi juga menjadi sarana yang sangat efektif untuk membangun keakraban, kekompakan, dan rasa kekeluargaan antara mahasiswa dan warga Kelurahan Rowosari. Harapannya, sinergi yang positif ini dapat terus terjaga untuk mendukung kelancaran program-program kerja selanjutnya.</p>'
             . '<p><img src="' . $appUrl . '/storage/news-content/8irQS80or6kAmgGpNUUn0uGQNESc2kKz8xdROY1v.jpg" alt="Senam Pagi"></p>';
 
+        // ─── Categories ───────────────────────────────────────
+        $categories = [
+            ['name' => 'Inovasi Lingkungan', 'slug' => 'inovasi-lingkungan'],
+            ['name' => 'Edukasi Warga', 'slug' => 'edukasi-warga'],
+            ['name' => 'Kegiatan KKN', 'slug' => 'kegiatan-kkn'],
+        ];
+
+        foreach ($categories as $cat) {
+            \App\Models\Category::updateOrCreate(['slug' => $cat['slug']], $cat);
+        }
+
+        $defaultCategory = \App\Models\Category::where('slug', 'kegiatan-kkn')->first();
+
         News::updateOrCreate(
             ['slug' => 'langkah-awal-mengabdi-rangkaian-kegiatan-minggu-pertama-kkn-di-kelurahan-rowosari'],
             [
@@ -209,6 +222,7 @@ class DatabaseSeeder extends Seeder
                 'location' => 'Balai Kelurahan Rowosari',
                 'image_path' => 'news/OucgKbEb1TApr0tFRtun8jYt4bAfk3AlNVE16kN0.jpg',
                 'author_id' => $user->id,
+                'category_id' => $defaultCategory->id,
                 'is_published' => true,
                 'published_at' => '2026-07-15 21:53:17',
             ]
