@@ -12,7 +12,7 @@ class News extends Model
 
     protected $fillable = [
         'title', 'slug', 'excerpt', 'content', 'event_date', 
-        'location', 'image_path', 'author_id', 'is_published', 'published_at'
+        'location', 'image_path', 'author_id', 'category_id', 'is_published', 'published_at'
     ];
 
     protected $casts = [
@@ -24,6 +24,16 @@ class News extends Model
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 
     public function scopePublished($query)

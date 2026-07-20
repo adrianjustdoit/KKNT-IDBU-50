@@ -44,6 +44,12 @@
                 <span class="material-symbols-outlined" style="font-size: 1.2rem; color: var(--color-amber-light);">location_on</span>
                 {{ $news->location }}
             </div>
+            @if($news->category)
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="material-symbols-outlined" style="font-size: 1.2rem; color: var(--color-amber-light);">folder</span>
+                <a href="{{ route('news.index', ['category' => $news->category->slug]) }}" style="color: white; text-decoration: none; border-bottom: 1px dotted rgba(255,255,255,0.5);">{{ $news->category->name }}</a>
+            </div>
+            @endif
         </div>
     </div>
 </div>
@@ -54,6 +60,17 @@
             <div class="ql-editor article-body" data-aos="fade-up">
                 {!! $news->content !!}
             </div>
+
+            @if($news->tags->count() > 0)
+                <div style="margin-top: var(--space-xl); display: flex; gap: 8px; flex-wrap: wrap; align-items: center;" data-aos="fade-up">
+                    <span style="font-size: 0.9rem; color: var(--color-slate); font-weight: 600; margin-right: 8px;">Tags:</span>
+                    @foreach($news->tags as $tag)
+                        <a href="{{ route('news.index', ['tag' => $tag->slug]) }}" style="background: rgba(74, 124, 89, 0.1); color: var(--color-forest-dark); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; text-decoration: none; transition: background 0.2s ease;">
+                            #{{ $tag->name }}
+                        </a>
+                    @endforeach
+                </div>
+            @endif
             
             <div class="article-share" style="margin-top: var(--space-2xl); padding-top: var(--space-xl); border-top: 1px solid rgba(0,0,0,0.1); display: flex; align-items: center; gap: var(--space-md);" data-aos="fade-up">
                 <span style="font-weight: 600; color: var(--color-slate);">Bagikan Berita:</span>
@@ -88,9 +105,16 @@
                         @endif
                     </div>
                     <div class="news-card__content" style="padding: var(--space-lg); flex: 1; display: flex; flex-direction: column;">
-                        <div class="news-card__meta" style="font-size: 0.8rem; color: var(--color-forest); font-weight: 600; margin-bottom: var(--space-sm); display: flex; align-items: center; gap: 6px;">
-                            <span class="material-symbols-outlined" style="font-size: 1rem;">calendar_today</span>
-                            {{ \Carbon\Carbon::parse($item->event_date)->isoFormat('D MMMM Y') }}
+                        <div class="news-card__meta" style="font-size: 0.8rem; color: var(--color-forest); font-weight: 600; margin-bottom: var(--space-sm); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span class="material-symbols-outlined" style="font-size: 1rem;">calendar_today</span>
+                                {{ \Carbon\Carbon::parse($item->event_date)->isoFormat('D MMMM Y') }}
+                            </div>
+                            @if($item->category)
+                                <div style="background: var(--color-amber-light); color: var(--color-charcoal); padding: 2px 10px; border-radius: 20px; font-size: 0.75rem;">
+                                    {{ $item->category->name }}
+                                </div>
+                            @endif
                         </div>
                         <h3 class="news-card__title" style="font-family: var(--font-heading); color: var(--color-slate); font-size: 1.15rem; margin-bottom: 0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                             {{ $item->title }}

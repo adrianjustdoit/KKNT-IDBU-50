@@ -88,5 +88,9 @@ echo "Enforcing mpm_prefork module..."
 a2dismod mpm_event mpm_worker || true
 a2enmod mpm_prefork || true
 
+# Start queue worker in background
+echo "Starting queue worker..."
+php artisan queue:work --sleep=3 --tries=3 &
+
 # Start Apache in foreground
 exec apache2-foreground

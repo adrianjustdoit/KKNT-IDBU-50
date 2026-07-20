@@ -71,4 +71,20 @@ class MediaController extends Controller
         $photo->delete();
         return back()->with('success', 'Foto berhasil dihapus!');
     }
+
+    public function bulkDestroyGallery(Request $request)
+    {
+        $request->validate([
+            'photo_ids' => 'required|array',
+            'photo_ids.*' => 'exists:gallery_photos,id'
+        ]);
+
+        $photos = GalleryPhoto::whereIn('id', $request->photo_ids)->get();
+        foreach ($photos as $photo) {
+            Storage::disk('public')->delete($photo->image_path);
+            $photo->delete();
+        }
+
+        return back()->with('success', count($photos) . ' foto berhasil dihapus!');
+    }
 }

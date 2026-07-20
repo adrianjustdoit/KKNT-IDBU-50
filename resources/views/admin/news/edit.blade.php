@@ -50,6 +50,28 @@
                 </div>
             </div>
 
+            <div class="form-group" style="display: flex; gap: var(--space-xl); flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px;">
+                    <label for="category_id">Kategori</label>
+                    <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror">
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id', $news->category_id) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('category_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div style="flex: 1; min-width: 250px;">
+                    <label for="tags">Tag Berita <small class="text-muted">(Tekan Enter untuk menambah)</small></label>
+                    <input name="tags" id="tags" class="form-control @error('tags') is-invalid @enderror" placeholder="Contoh: inovasi, lingkungan" value="{{ old('tags', $news->tags->pluck('name')->implode(',')) }}">
+                    @error('tags')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="image">Foto Sampul <small class="text-muted">(Biarkan kosong jika tidak ingin mengubah foto)</small></label>
                 <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror" accept="image/jpeg,image/png,image/webp" onchange="previewImage(this, 'preview-image')">
@@ -113,8 +135,16 @@
 
     <!-- Quill JS -->
     <script src="{{ asset('vendor/quill/quill.min.js') }}"></script>
+    <!-- Tagify CSS & JS -->
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Tagify
+            var inputTags = document.querySelector('#tags');
+            new Tagify(inputTags);
+
             var quill = new Quill('#editor-container', {
                 theme: 'snow',
                 placeholder: 'Tulis isi berita di sini...',

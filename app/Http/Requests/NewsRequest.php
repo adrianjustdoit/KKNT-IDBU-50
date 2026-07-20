@@ -29,7 +29,9 @@ class NewsRequest extends FormRequest
             'event_date' => 'required|date',
             'location' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'is_published' => 'boolean'
+            'is_published' => 'boolean',
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|string'
         ];
     }
 

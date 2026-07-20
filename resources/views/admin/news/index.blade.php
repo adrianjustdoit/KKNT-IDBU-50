@@ -51,12 +51,28 @@
                             </td>
                             <td>
                                 <div style="font-weight: 600; color: var(--color-forest-dark);">{{ $item->title }}</div>
-                                <div style="font-size: 0.85rem; color: var(--color-slate); margin-top: 4px;">
-                                    <span class="material-symbols-outlined" style="font-size: 0.9rem; vertical-align: middle;">calendar_today</span> 
-                                    {{ \Carbon\Carbon::parse($item->event_date)->isoFormat('D MMMM Y') }} | 
-                                    <span class="material-symbols-outlined" style="font-size: 0.9rem; vertical-align: middle;">location_on</span>
-                                    {{ $item->location }}
+                                <div style="font-size: 0.85rem; color: var(--color-slate); margin-top: 4px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                                    <span>
+                                        <span class="material-symbols-outlined" style="font-size: 0.9rem; vertical-align: middle;">calendar_today</span> 
+                                        {{ \Carbon\Carbon::parse($item->event_date)->isoFormat('D MMMM Y') }}
+                                    </span>
+                                    <span>
+                                        <span class="material-symbols-outlined" style="font-size: 0.9rem; vertical-align: middle;">location_on</span>
+                                        {{ $item->location }}
+                                    </span>
+                                    @if($item->category)
+                                        <span class="status-badge" style="background: var(--color-amber-light); color: var(--color-charcoal); padding: 2px 8px;">
+                                            <span class="material-symbols-outlined" style="font-size: 0.8rem; vertical-align: middle;">folder</span> {{ $item->category->name }}
+                                        </span>
+                                    @endif
                                 </div>
+                                @if($item->tags->count() > 0)
+                                    <div style="margin-top: 6px; display: flex; gap: 4px; flex-wrap: wrap;">
+                                        @foreach($item->tags as $tag)
+                                            <span style="font-size: 0.75rem; background: var(--color-light-gray); padding: 2px 6px; border-radius: 4px; color: var(--color-slate);">#{{ $tag->name }}</span>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </td>
                             <td>
                                 @if($item->is_published)

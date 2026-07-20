@@ -12,6 +12,23 @@
 
 <section class="section section--sand" style="background: var(--color-sand); min-height: 60vh;">
     <div class="container">
+        
+        <div style="margin-bottom: var(--space-xl); display: flex; gap: var(--space-md); flex-wrap: wrap; justify-content: center;" data-aos="fade-up">
+            <a href="{{ route('news.index') }}" class="btn {{ !request('category') && !request('tag') ? 'btn-primary' : 'btn-outline' }}" style="border-radius: 30px; padding: 8px 20px;">Semua Berita</a>
+            
+            @foreach($categories as $cat)
+                <a href="{{ route('news.index', ['category' => $cat->slug]) }}" class="btn {{ request('category') == $cat->slug ? 'btn-primary' : 'btn-outline' }}" style="border-radius: 30px; padding: 8px 20px;">
+                    <span class="material-symbols-outlined" style="font-size: 1.2rem; margin-right: 4px; vertical-align: middle;">folder</span> {{ $cat->name }}
+                </a>
+            @endforeach
+
+            @if(request('tag'))
+                <a href="{{ route('news.index') }}" class="btn btn-primary" style="border-radius: 30px; padding: 8px 20px; background: var(--color-forest-dark);">
+                    #{{ request('tag') }} <span class="material-symbols-outlined" style="font-size: 1.2rem; margin-left: 4px; vertical-align: middle;">close</span>
+                </a>
+            @endif
+        </div>
+
         @if($news->count() > 0)
             <div class="news-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-xl); margin-bottom: var(--space-2xl);">
                 @foreach($news as $item)
@@ -26,9 +43,16 @@
                             @endif
                         </div>
                         <div class="news-card__content" style="padding: var(--space-lg); flex: 1; display: flex; flex-direction: column;">
-                            <div class="news-card__meta" style="font-size: 0.85rem; color: var(--color-forest); font-weight: 600; margin-bottom: var(--space-sm); display: flex; align-items: center; gap: 6px;">
-                                <span class="material-symbols-outlined" style="font-size: 1rem;">calendar_today</span>
-                                {{ \Carbon\Carbon::parse($item->event_date)->isoFormat('D MMMM Y') }}
+                            <div class="news-card__meta" style="font-size: 0.85rem; color: var(--color-forest); font-weight: 600; margin-bottom: var(--space-sm); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <span class="material-symbols-outlined" style="font-size: 1rem;">calendar_today</span>
+                                    {{ \Carbon\Carbon::parse($item->event_date)->isoFormat('D MMMM Y') }}
+                                </div>
+                                @if($item->category)
+                                    <div style="background: var(--color-amber-light); color: var(--color-charcoal); padding: 2px 10px; border-radius: 20px; font-size: 0.75rem;">
+                                        {{ $item->category->name }}
+                                    </div>
+                                @endif
                             </div>
                             <h3 class="news-card__title" style="font-family: var(--font-heading); color: var(--color-slate); font-size: 1.25rem; margin-bottom: var(--space-sm); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                 {{ $item->title }}
@@ -36,6 +60,13 @@
                             <p class="news-card__excerpt" style="color: var(--color-earth); font-size: 0.95rem; line-height: 1.6; margin-bottom: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex: 1;">
                                 {{ $item->excerpt }}
                             </p>
+                            @if($item->tags->count() > 0)
+                                <div style="margin-top: 8px; display: flex; gap: 4px; flex-wrap: wrap;">
+                                    @foreach($item->tags->take(3) as $tag)
+                                        <span style="font-size: 0.75rem; background: rgba(74, 124, 89, 0.1); padding: 2px 8px; border-radius: 4px; color: var(--color-forest-dark);">#{{ $tag->name }}</span>
+                                    @endforeach
+                                </div>
+                            @endif
                             <div style="margin-top: var(--space-md); color: var(--color-forest); font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 4px;">
                                 Baca selengkapnya <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_forward</span>
                             </div>

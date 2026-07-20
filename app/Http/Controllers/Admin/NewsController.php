@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Models\Category;
+use App\Models\Tag;
+use Illuminate\Support\Str;
 use App\Http\Requests\NewsRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -29,7 +32,8 @@ class NewsController extends Controller
 
     public function create()
     {
-        return view('admin.news.create');
+        $categories = Category::all();
+        return view('admin.news.create', compact('categories'));
     }
 
     public function store(NewsRequest $request)
@@ -38,6 +42,7 @@ class NewsController extends Controller
         
         if ($request->hasFile('image')) {
             $data['image_path'] = $request->file('image')->store('news', 'public');
+            \App\Jobs\OptimizeImage::dispatch($data['image_path'], 800);
         }
 
         $data['author_id'] = auth()->id();
@@ -46,14 +51,17 @@ class NewsController extends Controller
             $data['published_at'] = now();
         }
 
-        News::create($data);
+        $news = News::create($data);
+        
+        $this->syncTags($news, $request->tags);
 
         return redirect()->route('admin.news.index')->with('success', 'Berita berhasil ditambahkan.');
     }
 
     public function edit(News $news)
     {
-        return view('admin.news.edit', compact('news'));
+        $categories = Category::all();
+        return view('admin.news.edit', compact('news', 'categories'));
     }
 
     public function update(NewsRequest $request, News $news)
@@ -65,6 +73,7 @@ class NewsController extends Controller
                 Storage::disk('public')->delete($news->image_path);
             }
             $data['image_path'] = $request->file('image')->store('news', 'public');
+            \App\Jobs\OptimizeImage::dispatch($data['image_path'], 800);
         }
 
         if ($data['is_published'] && !$news->is_published && !$news->published_at) {
@@ -75,6 +84,8 @@ class NewsController extends Controller
         // but as requested, slug doesn't auto-change unless emptied. (Handled in Boot method if we empty it)
         
         $news->update($data);
+        
+        $this->syncTags($news, $request->tags);
 
         return redirect()->route('admin.news.index')->with('success', 'Berita berhasil diperbarui.');
     }
@@ -90,6 +101,34 @@ class NewsController extends Controller
         return redirect()->route('admin.news.index')->with('success', 'Berita berhasil dihapus.');
     }
 
+    private function syncTags(News $news, ?string $tagsJson)
+    {
+        if (!$tagsJson) {
+            $news->tags()->sync([]);
+            return;
+        }
+
+        $tagsArray = json_decode($tagsJson, true);
+        if (!is_array($tagsArray)) {
+            $news->tags()->sync([]);
+            return;
+        }
+
+        $tagIds = [];
+        foreach ($tagsArray as $tagData) {
+            if (isset($tagData['value'])) {
+                $tagName = $tagData['value'];
+                $tag = Tag::firstOrCreate(
+                    ['slug' => Str::slug($tagName)],
+                    ['name' => $tagName]
+                );
+                $tagIds[] = $tag->id;
+            }
+        }
+
+        $news->tags()->sync($tagIds);
+    }
+
     public function uploadContentImage(Request $request)
     {
         $request->validate([
@@ -97,6 +136,9 @@ class NewsController extends Controller
         ]);
 
         $path = $request->file('image')->store('news-content', 'public');
+        
+        // Dispatch job to optimize the content image in the background (max width 1200px)
+        \App\Jobs\OptimizeImage::dispatch($path, 1200);
 
         // Return relative URL so it works regardless of APP_URL config
         $url = '/storage/' . $path;

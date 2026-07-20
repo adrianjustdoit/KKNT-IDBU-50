@@ -859,10 +859,17 @@ p {
     left: 0;
     right: 0;
     padding: var(--space-lg);
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
-    color: var(--color-white);
+    background: linear-gradient(to top, rgba(74, 124, 89, 0.95), transparent); /* Better gradient direction for forest green */
+    color: #ffffff;
     transform: translateY(100%);
     transition: transform var(--transition-base);
+}
+
+.gallery-card__overlay p {
+    color: #ffffff !important;
+    margin: 0;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
 .gallery-card:hover .gallery-card__overlay {

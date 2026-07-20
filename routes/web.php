@@ -46,6 +46,7 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::put('media/video', [MediaController::class, 'updateVideo'])->name('media.video.update');
     Route::get('media/gallery', [MediaController::class, 'gallery'])->name('media.gallery');
     Route::post('media/gallery', [MediaController::class, 'storeGallery'])->name('media.gallery.store');
+    Route::post('media/gallery/bulk-destroy', [MediaController::class, 'bulkDestroyGallery'])->name('media.gallery.bulk-destroy');
     Route::delete('media/gallery/{photo}', [MediaController::class, 'destroyGallery'])->name('media.gallery.destroy');
 
     // Settings

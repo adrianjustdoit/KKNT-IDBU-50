@@ -42,14 +42,29 @@
 
     {{-- Existing gallery --}}
     <div class="admin-card">
-        <h3 style="margin-bottom:var(--space-lg);">Foto Tersimpan ({{ $photos->count() }})</h3>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-lg);">
+            <h3 style="margin:0;">Foto Tersimpan ({{ $photos->count() }})</h3>
+            
+            @if($photos->count() > 0)
+                <form action="{{ route('admin.media.gallery.bulk-destroy') }}" method="POST" id="bulkDeleteForm" onsubmit="return confirm('Hapus foto yang dipilih?')">
+                    @csrf
+                    <button type="submit" class="btn btn-danger" id="bulkDeleteBtn" disabled>
+                        <span class="material-symbols-outlined">delete</span>
+                        Hapus Terpilih
+                    </button>
+                </form>
+            @endif
+        </div>
 
         @if($photos->count() > 0)
             <div class="gallery-admin-grid">
                 @foreach($photos as $photo)
-                    <div class="gallery-admin-item">
+                    <div class="gallery-admin-item" style="position:relative;">
+                        <input type="checkbox" name="photo_ids[]" value="{{ $photo->id }}" form="bulkDeleteForm" class="photo-checkbox" style="position:absolute; top:10px; left:10px; z-index:10; transform:scale(1.5); cursor:pointer;">
+                        
                         <img src="{{ asset('storage/' . $photo->image_path) }}"
                              alt="{{ $photo->title ?? 'Gallery photo' }}">
+                        
                         <div class="gallery-admin-item__actions">
                             <form action="{{ route('admin.media.gallery.destroy', $photo) }}" method="POST"
                                   onsubmit="return confirm('Hapus foto ini?')">
@@ -74,6 +89,17 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (window.initImageUpload) window.initImageUpload('photos', 'photoPreview');
+
+            // Bulk Delete Logic
+            const checkboxes = document.querySelectorAll('.photo-checkbox');
+            const bulkBtn = document.getElementById('bulkDeleteBtn');
+
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', () => {
+                    const anyChecked = Array.from(checkboxes).some(c => c.checked);
+                    bulkBtn.disabled = !anyChecked;
+                });
+            });
         });
     </script>
 @endsection

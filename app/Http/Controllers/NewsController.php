@@ -3,14 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $news = News::published()->latest('published_at')->paginate(9);
-        return view('news.index', compact('news'));
+        $query = News::published()->with(['category', 'tags']);
+
+        if ($request->has('category') && $request->category !== '') {
+            $query->whereHas('category', function ($q) use ($request) {
+                $q->where('slug', $request->category);
+            });
+        }
+
+        if ($request->has('tag') && $request->tag !== '') {
+            $query->whereHas('tags', function ($q) use ($request) {
+                $q->where('slug', $request->tag);
+            });
+        }
+
+        $news = $query->latest('published_at')->paginate(9)->withQueryString();
+        
+        $categories = Category::has('news')->get();
+        $tags = Tag::has('news')->get();
+
+        return view('news.index', compact('news', 'categories', 'tags'));
     }
 
     public function show(News $news)
@@ -21,6 +41,9 @@ class NewsController extends Controller
 
         $relatedNews = News::published()
             ->where('id', '!=', $news->id)
+            ->when($news->category_id, function($q) use ($news) {
+                $q->where('category_id', $news->category_id);
+            })
             ->inRandomOrder()
             ->take(3)
             ->get();
