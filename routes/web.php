@@ -27,7 +27,7 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Admin routes (protected)
-Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // Products CRUD
@@ -52,4 +52,12 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     // Settings
     Route::get('settings', [SettingController::class, 'index'])->name('settings');
     Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
+});
+
+// Author routes (protected)
+Route::prefix('author')->middleware(['auth', 'role:author'])->name('author.')->group(function () {
+    // News CRUD for Author
+    // Note: We are reusing the Admin\NewsController to handle the logic, but the views will adapt based on the role
+    Route::resource('news', App\Http\Controllers\Admin\NewsController::class);
+    Route::post('news/upload-image', [App\Http\Controllers\Admin\NewsController::class, 'uploadContentImage'])->name('news.upload-image');
 });

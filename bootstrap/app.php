@@ -17,6 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Trust all proxies (required for Railway/Heroku to generate HTTPS links)
         $middleware->trustProxies(at: '*');
+
+        $middleware->alias([
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

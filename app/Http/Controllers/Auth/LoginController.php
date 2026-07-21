@@ -39,7 +39,12 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             RateLimiter::clear($throttleKey);
             $request->session()->regenerate();
-            return redirect()->intended(route('admin.dashboard'));
+            
+            if (Auth::user()->isAdmin()) {
+                return redirect()->intended(route('admin.dashboard'));
+            } else {
+                return redirect()->intended(route('author.news.index'));
+            }
         }
 
         RateLimiter::hit($throttleKey, 60);

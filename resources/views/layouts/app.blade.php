@@ -42,6 +42,8 @@
                 <li><a href="{{ request()->routeIs('home') ? '#kontak' : route('home') . '#kontak' }}" class="navbar__link">Kontak</a></li>
                 @auth
                     <li><a href="{{ route('admin.dashboard') }}" class="navbar__link navbar__link--cta">Admin Panel</a></li>
+                @else
+                    <li><a href="{{ route('login') }}" class="navbar__link navbar__link--cta">Masuk</a></li>
                 @endauth
             </ul>
         </div>

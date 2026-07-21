@@ -1,4 +1,8 @@
-@extends('layouts.admin')
+@extends(auth()->user()->isAdmin() ? 'layouts.admin' : 'layouts.author')
+
+@php
+    $routePrefix = auth()->user()->isAdmin() ? 'admin.' : 'author.';
+@endphp
 
 @section('title', 'Manajemen Berita Harian')
 
@@ -6,7 +10,7 @@
     <div class="admin-header">
         <h1>Berita Harian</h1>
         <div class="admin-header__actions">
-            <a href="{{ route('admin.news.create') }}" class="btn btn-primary">
+            <a href="{{ route($routePrefix . 'news.create') }}" class="btn btn-primary">
                 <span class="material-symbols-outlined">add</span> Tambah Berita
             </a>
         </div>
@@ -16,7 +20,7 @@
         <div class="admin-card__header" style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-md); flex-wrap: wrap;">
             <h2 class="admin-card__title">Daftar Berita</h2>
             
-            <form action="{{ route('admin.news.index') }}" method="GET" style="display: flex; gap: var(--space-sm);">
+            <form action="{{ route($routePrefix . 'news.index') }}" method="GET" style="display: flex; gap: var(--space-sm);">
                 <select name="status" class="form-control" style="width: auto;">
                     <option value="">Semua Status</option>
                     <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Tayang</option>
@@ -83,10 +87,10 @@
                             </td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="{{ route('admin.news.edit', $item) }}" class="btn-icon" title="Edit">
+                                    <a href="{{ route($routePrefix . 'news.edit', $item) }}" class="btn-icon" title="Edit">
                                         <span class="material-symbols-outlined">edit</span>
                                     </a>
-                                    <form action="{{ route('admin.news.destroy', $item) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
+                                    <form action="{{ route($routePrefix . 'news.destroy', $item) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-icon text-danger" title="Hapus">

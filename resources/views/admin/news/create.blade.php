@@ -1,4 +1,8 @@
-@extends('layouts.admin')
+@extends(auth()->user()->isAdmin() ? 'layouts.admin' : 'layouts.author')
+
+@php
+    $routePrefix = auth()->user()->isAdmin() ? 'admin.' : 'author.';
+@endphp
 
 @section('title', 'Tambah Berita')
 
@@ -6,13 +10,13 @@
     <div class="admin-header">
         <h1>Tambah Berita</h1>
         <div class="admin-header__actions">
-            <a href="{{ route('admin.news.index') }}" class="btn btn-outline">
+            <a href="{{ route($routePrefix . 'news.index') }}" class="btn btn-outline">
                 <span class="material-symbols-outlined">arrow_back</span> Kembali
             </a>
         </div>
     </div>
 
-    <form action="{{ route('admin.news.store') }}" method="POST" enctype="multipart/form-data" id="newsForm">
+    <form action="{{ route($routePrefix . 'news.store') }}" method="POST" enctype="multipart/form-data" id="newsForm">
         @csrf
         <div style="display: grid; grid-template-columns: 1fr; gap: var(--space-xl); align-items: start; margin-top: var(--space-lg);">
             <style>
@@ -293,7 +297,7 @@
                         submitBtn.disabled = true;
                         submitBtn.innerHTML = '<span class="material-symbols-outlined" style="animation: spin 1s linear infinite;">refresh</span> Mengunggah...';
 
-                        fetch('{{ route("admin.news.upload-image") }}', {
+                        fetch('{{ route($routePrefix . "news.upload-image") }}', {
                             method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': csrfToken
