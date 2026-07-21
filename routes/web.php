@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/galeri', [PageController::class, 'galeri'])->name('galeri');
+Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
 Route::get('/product/{product}', [HomeController::class, 'productDetail'])->name('product.detail');
 Route::get('/produk/{product:slug}', [ProductShowController::class, 'show'])->name('product.3d');
 Route::get('/kompos-eksplorasi', [ProductShowController::class, 'eksplorasiKompos'])->name('kompos.eksplorasi');

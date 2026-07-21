@@ -9,6 +9,7 @@ use Laravel\Scout\Searchable;
 
 class News extends Model
 {
+    /** @use HasFactory<\Database\Factories\NewsFactory> */
     use HasFactory, Searchable;
 
     protected $fillable = [
@@ -32,6 +33,11 @@ class News extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
     /**
      * Get the indexable data array for the model.
      *
@@ -48,10 +54,7 @@ class News extends Model
         ];
     }
 
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class);
-    }
+
 
     public function scopePublished($query)
     {

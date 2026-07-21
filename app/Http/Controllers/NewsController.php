@@ -60,6 +60,8 @@ class NewsController extends Controller
             abort(404);
         }
 
+        $news->increment('view_count');
+
         $relatedNews = News::published()
             ->where('id', '!=', $news->id)
             ->when($news->category_id, function($q) use ($news) {

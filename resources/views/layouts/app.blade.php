@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Program pengelolaan sampah 3R (Reduce, Reuse, Recycle) oleh KKN Undip di Kelurahan Rowosari, Tembalang. Produk daur ulang & ramah lingkungan.">
+    <meta name="description" content="@yield('meta_description', 'Program pengelolaan sampah 3R (Reduce, Reuse, Recycle) oleh KKN Undip di Kelurahan Rowosari, Tembalang. Produk daur ulang & ramah lingkungan.')">
     <meta name="keywords" content="KKN Rowosari, 3R, Reduce Reuse Recycle, daur ulang, Semarang, Tembalang, produk ramah lingkungan">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ url('/sitemap.xml') }}">
     <title>@yield('title', 'KKN-T IDBU 50 ROWOSARI — Pengelolaan Sampah Berkelanjutan')</title>
 
     {{-- Google Fonts --}}

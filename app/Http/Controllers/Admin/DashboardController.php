@@ -17,7 +17,9 @@ class DashboardController extends Controller
         ];
 
         $recentProducts = Product::latest()->take(5)->get();
+        
+        $topNews = \App\Models\News::published()->orderBy('view_count', 'desc')->take(5)->get();
 
-        return view('admin.dashboard', compact('stats', 'recentProducts'));
+        return view('admin.dashboard', compact('stats', 'recentProducts', 'topNews'));
     }
 }

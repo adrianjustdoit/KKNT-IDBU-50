@@ -84,6 +84,10 @@ php artisan migrate --force
 if [ "$FRESH_DB" = true ]; then
     echo "Seeding database with initial data..."
     php artisan db:seed --force
+else
+    # Always ensure the author account exists even on existing deployments
+    echo "Ensuring author account exists..."
+    php artisan db:seed --class=AuthorSeeder --force || true
 fi
 
 echo "=== Application ready! Starting Apache on port ${PORT} ==="

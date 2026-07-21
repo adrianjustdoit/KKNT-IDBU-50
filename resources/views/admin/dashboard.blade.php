@@ -102,4 +102,61 @@
             </div>
         @endif
     </div>
+
+    {{-- Top News --}}
+    <div class="admin-card" style="margin-top: var(--space-xl);">
+        <h3 style="margin-bottom:var(--space-lg);">Berita Terpopuler</h3>
+        @if(isset($topNews) && $topNews->count() > 0)
+            <div class="table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>Judul Berita</th>
+                            <th>Kategori</th>
+                            <th>Tanggal</th>
+                            <th>Dilihat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($topNews as $news)
+                            <tr>
+                                <td>
+                                    @if($news->image_path)
+                                        <img src="{{ asset('storage/' . $news->image_path) }}"
+                                             alt="{{ $news->title }}"
+                                             class="admin-table__thumb" style="object-fit: cover;">
+                                    @else
+                                        <div class="admin-table__thumb placeholder-img" style="display:flex;align-items:center;justify-content:center;font-size:1rem;">
+                                            <span class="material-symbols-outlined">image</span>
+                                        </div>
+                                    @endif
+                                </td>
+                                <td>
+                                    <strong>{{ \Illuminate\Support\Str::limit($news->title, 50) }}</strong>
+                                </td>
+                                <td>
+                                    <span style="background: rgba(45,106,79,0.1); color: var(--color-forest); padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                                        {{ $news->category ? $news->category->name : '-' }}
+                                    </span>
+                                </td>
+                                <td>{{ \Carbon\Carbon::parse($news->published_at)->format('d M Y') }}</td>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 4px; color: var(--color-forest-dark); font-weight: bold;">
+                                        <span class="material-symbols-outlined" style="font-size: 1.1rem;">visibility</span>
+                                        {{ number_format($news->view_count, 0, ',', '.') }} kali
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @else
+            <div style="text-align:center;padding:var(--space-2xl);color:var(--color-muted);">
+                <span class="material-symbols-outlined" style="font-size:2rem;">newspaper</span>
+                <p style="margin-top:var(--space-sm);">Belum ada berita yang diterbitkan.</p>
+            </div>
+        @endif
+    </div>
 @endsection

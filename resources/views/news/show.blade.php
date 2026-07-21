@@ -2,6 +2,8 @@
 
 @section('title', $news->title)
 
+@section('meta_description', strip_tags($news->excerpt))
+
 @section('head')
     <meta property="og:title" content="{{ $news->title }}" />
     <meta property="og:description" content="{{ $news->excerpt }}" />
