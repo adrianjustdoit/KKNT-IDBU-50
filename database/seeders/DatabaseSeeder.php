@@ -22,6 +22,10 @@ class DatabaseSeeder extends Seeder
         $this->copySeedImages();
 
         // ─── Admin User ───────────────────────────────────────
+        $this->call([
+            AuthorSeeder::class,
+        ]);
+
         $defaultPassword = env('ADMIN_DEFAULT_PASSWORD', 'R0w0s4r1-3R-Adm!n-2024');
         $user = User::updateOrCreate(
             ['email' => 'admin@rowosari3r.com'],
