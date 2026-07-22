@@ -79,40 +79,51 @@
             <div class="kompos-callout" data-layer="1">
                 <div class="kompos-callout__number">1</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">✨ Resin Top-Coat</h3>
-                    <p class="kompos-callout__desc">Lapisan pelindung bening (clear cast) yang tahan panas dan goresan, menjaga motif tetap mengkilap dan awet digunakan untuk gelas panas.</p>
+                    <h3 class="kompos-callout__name">Resin Top-Coat</h3>
+                    <p class="kompos-callout__desc">Proteksi bening berketahanan tinggi terhadap panas dan goresan.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="2">
                 <div class="kompos-callout__number">2</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🎨 Terrazzo Speckle</h3>
-                    <p class="kompos-callout__desc">Serpihan dari limbah plastik, keramik, dan kaca yang dicacah dan disusun acak untuk menciptakan pola unik pada setiap coaster.</p>
+                    <h3 class="kompos-callout__name">Plastik Cacah</h3>
+                    <p class="kompos-callout__desc">Agregat daur ulang limbah plastik anorganik yang terkomposisi secara presisi.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="3">
                 <div class="kompos-callout__number">3</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🖌️ Pigmen Tint</h3>
-                    <p class="kompos-callout__desc">Lapisan pewarna solid yang memberi kontras pada serpihan terrazzo, terbuat dari pigmen ramah lingkungan yang aman.</p>
+                    <h3 class="kompos-callout__name">Pigmen Tint</h3>
+                    <p class="kompos-callout__desc">Pewarna organik berkualitas untuk aksentuasi visual terrazzo.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="4">
                 <div class="kompos-callout__number">4</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🪨 Resin Dasar</h3>
-                    <p class="kompos-callout__desc">Struktur penopang utama yang kokoh, dicetak menggunakan eco-resin untuk memberikan beban dan stabilitas pada coaster.</p>
+                    <h3 class="kompos-callout__name">Resin Dasar</h3>
+                    <p class="kompos-callout__desc">Matriks struktur pendukung untuk kekokohan dan bobot ideal.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="5">
                 <div class="kompos-callout__number">5</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🪵 Alas Cork</h3>
-                    <p class="kompos-callout__desc">Bantalan gabus alami di bagian bawah untuk mencegah slip (anti-licin) dan melindungi permukaan meja dari goresan.</p>
+                    <h3 class="kompos-callout__name">Alas Cork</h3>
+                    <p class="kompos-callout__desc">Lapisan gabus alami anti-selip penahan benturan pada meja.</p>
+                </div>
+            </div>
+        </div>
+
+        {{-- Watermark Cover Badge --}}
+        <div class="kompos-emblem" aria-hidden="true">
+            <div class="kompos-emblem__inner">
+                <span class="material-symbols-outlined kompos-emblem__icon">eco</span>
+                <div class="kompos-emblem__text">
+                    <span class="kompos-emblem__title">ROWOSARI 3R</span>
+                    <span class="kompos-emblem__sub">ECO SYSTEM</span>
                 </div>
             </div>
         </div>

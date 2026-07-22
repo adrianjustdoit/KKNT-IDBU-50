@@ -184,24 +184,15 @@ function initProductModal() {
             tokopediaLink.style.display = 'none';
         }
 
-        // 3D Viewer link
-        if (product.model_type && product.slug) {
-            view3dLink.href = `/produk/${product.slug}`;
-            view3dLink.style.display = '';
-        } else {
-            view3dLink.style.display = 'none';
-        }
-
-        // Kompos Eksplorasi link
+        // Exploration Links logic
         const komposLink = overlay.querySelector('.modal__kompos');
-        if (komposLink) {
-            const name = (product.name || '').toLowerCase();
-            if (name.includes('kompos') || name.includes('pupuk')) {
-                komposLink.style.display = '';
-            } else {
-                komposLink.style.display = 'none';
-            }
-        }
+        const coasterLink = overlay.querySelector('.modal__coaster');
+        const keychainLink = overlay.querySelector('.modal__keychain');
+        const name = (product.name || '').toLowerCase();
+
+        if (komposLink) komposLink.style.display = (name.includes('kompos') || name.includes('pupuk')) ? '' : 'none';
+        if (coasterLink) coasterLink.style.display = (name.includes('coaster') || name.includes('terrazzo')) ? '' : 'none';
+        if (keychainLink) keychainLink.style.display = (name.includes('keychain') || name.includes('gantungan')) ? '' : 'none';
     }
 }
 

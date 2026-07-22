@@ -79,56 +79,67 @@
             <div class="kompos-callout" data-layer="1">
                 <div class="kompos-callout__number">1</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🌾 Sekam</h3>
-                    <p class="kompos-callout__desc">Menjaga sirkulasi udara di dalam wadah kompos, mempercepat proses dekomposisi secara aerobik.</p>
+                    <h3 class="kompos-callout__name">Sekam</h3>
+                    <p class="kompos-callout__desc">Menjaga aerasi dan sirkulasi udara di dalam wadah pengomposan aerobik.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="2">
                 <div class="kompos-callout__number">2</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🪨 Granit / Kerikil</h3>
-                    <p class="kompos-callout__desc">Berfungsi sebagai drainase dan filter alami, mencegah genangan air yang bisa menghambat pengomposan.</p>
+                    <h3 class="kompos-callout__name">Granit & Kerikil</h3>
+                    <p class="kompos-callout__desc">Sistem drainase alami untuk mencegah akumulasi kelembapan berlebih.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="3">
                 <div class="kompos-callout__number">3</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">💧 Bioaqua</h3>
-                    <p class="kompos-callout__desc">Aktivator mikroorganisme pengurai bahan organik, mempercepat proses fermentasi dan dekomposisi.</p>
+                    <h3 class="kompos-callout__name">Bioaqua</h3>
+                    <p class="kompos-callout__desc">Aktivator mikroba alami untuk mengakselerasi fermentasi bahan organik.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="4">
                 <div class="kompos-callout__number">4</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🥬 Sampah Sayur</h3>
-                    <p class="kompos-callout__desc">Sumber nitrogen utama untuk nutrisi kompos, memberikan bahan organik kaya nutrisi bagi tanaman.</p>
+                    <h3 class="kompos-callout__name">Sampah Sayur</h3>
+                    <p class="kompos-callout__desc">Kaya akan kandungan nitrogen esensial bagi nutrisi alami tanaman.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="5">
                 <div class="kompos-callout__number">5</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🍂 Daun Kering</h3>
-                    <p class="kompos-callout__desc">Sumber karbon penting yang menyeimbangkan rasio C/N, memastikan pengomposan berjalan optimal.</p>
+                    <h3 class="kompos-callout__name">Daun Kering</h3>
+                    <p class="kompos-callout__desc">Penyeimbang rasio karbon (C/N) untuk struktur kompos yang stabil.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="6">
                 <div class="kompos-callout__number">6</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🐐 Kotoran Kambing</h3>
-                    <p class="kompos-callout__desc">Memperkaya nutrisi kompos dan mempercepat proses fermentasi berkat kandungan bakteri alami.</p>
+                    <h3 class="kompos-callout__name">Kotoran Kambing</h3>
+                    <p class="kompos-callout__desc">Menguapkan unsur hara dan memperkaya mikroflora tanah.</p>
                 </div>
             </div>
 
             <div class="kompos-callout" data-layer="7">
                 <div class="kompos-callout__number">7</div>
                 <div class="kompos-callout__content">
-                    <h3 class="kompos-callout__name">🟤 Tanah</h3>
-                    <p class="kompos-callout__desc">Lapisan dasar yang menyediakan bakteri pengurai alami dan fondasi struktur kompos keseluruhan.</p>
+                    <h3 class="kompos-callout__name">Tanah Subur</h3>
+                    <p class="kompos-callout__desc">Fondasi mikroorganisme lokal penyempurna fermentasi akhir.</p>
+                </div>
+            </div>
+        </div>
+
+        {{-- Watermark Cover Badge --}}
+        <div class="kompos-emblem" aria-hidden="true">
+            <div class="kompos-emblem__inner">
+                <span class="material-symbols-outlined kompos-emblem__icon">eco</span>
+                <div class="kompos-emblem__text">
+                    <span class="kompos-emblem__title">ROWOSARI 3R</span>
+                    <span class="kompos-emblem__sub">ECO SYSTEM</span>
                 </div>
             </div>
         </div>

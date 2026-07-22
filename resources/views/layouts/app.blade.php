@@ -71,9 +71,13 @@
                         <span class="material-symbols-outlined">layers</span>
                         Eksplorasi Kompos
                     </a>
-                    <a href="#" class="btn btn-primary modal__view3d" target="_self" style="display:none;">
-                        <span class="material-symbols-outlined">view_in_ar</span>
-                        Lihat Model 3D
+                    <a href="{{ route('coaster.eksplorasi') }}" class="btn btn-primary modal__coaster" target="_self" style="display:none; background: linear-gradient(135deg, var(--color-forest), var(--color-amber));">
+                        <span class="material-symbols-outlined">layers</span>
+                        Eksplorasi Coaster
+                    </a>
+                    <a href="{{ route('keychain.eksplorasi') }}" class="btn btn-primary modal__keychain" target="_self" style="display:none; background: linear-gradient(135deg, var(--color-forest), var(--color-amber));">
+                        <span class="material-symbols-outlined">layers</span>
+                        Eksplorasi Keychain
                     </a>
                     <a href="#" class="btn btn-primary modal__shopee" target="_blank" rel="noopener noreferrer">
                         <span class="material-symbols-outlined">shopping_bag</span>

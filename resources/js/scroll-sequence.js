@@ -17,6 +17,7 @@
     const TOTAL_FRAMES = config.totalFrames;
     const FRAME_PATH = config.framePath;
     const pfx = config.prefix;
+    const FRAME_STEP = config.step || 2; // Subsample: load every 2nd frame for 50% lighter weight and 2x faster load
 
     // ─── DOM Elements ───
     const canvas = document.querySelector(`.${pfx}-canvas`);
@@ -45,33 +46,41 @@
     // ─── Frame URL Generator ───
     function getFrameUrl(index) {
         const num = String(index).padStart(3, '0');
-        // Handle ezgif frames if needed (fallback to direct format)
         return `${FRAME_PATH}/frame-${num}.png`;
     }
 
-    // ─── Preload All Frames ───
+    // ─── Preload Frames (Subsampled for Speed & Performance) ───
     function preloadFrames() {
         return new Promise((resolve) => {
-            let loaded = 0;
+            const frameIndicesToLoad = [];
+            for (let i = 0; i < TOTAL_FRAMES; i += FRAME_STEP) {
+                frameIndicesToLoad.push(i);
+            }
+            if (!frameIndicesToLoad.includes(TOTAL_FRAMES - 1)) {
+                frameIndicesToLoad.push(TOTAL_FRAMES - 1);
+            }
 
-            for (let i = 0; i < TOTAL_FRAMES; i++) {
+            let loaded = 0;
+            const totalToLoad = frameIndicesToLoad.length;
+
+            frameIndicesToLoad.forEach((i) => {
                 const img = new Image();
                 img.src = getFrameUrl(i);
 
                 img.onload = img.onerror = () => {
                     loaded++;
-                    const percent = Math.round((loaded / TOTAL_FRAMES) * 100);
+                    const percent = Math.round((loaded / totalToLoad) * 100);
 
                     if (loadProgress) loadProgress.style.width = percent + '%';
                     if (loadPercent) loadPercent.textContent = percent + '%';
 
-                    if (loaded === TOTAL_FRAMES) {
+                    if (loaded === totalToLoad) {
                         resolve();
                     }
                 };
 
                 frames[i] = img;
-            }
+            });
         });
     }
 
@@ -92,11 +101,27 @@
         canvas.height = h * dpr;
     }
 
+    // ─── Get Valid Frame (Fallback if any frame is missing/unloaded) ───
+    function getValidFrame(index) {
+        if (frames[index] && frames[index].complete && frames[index].naturalWidth > 0) {
+            return frames[index];
+        }
+        for (let offset = 1; offset < TOTAL_FRAMES; offset++) {
+            if (frames[index + offset] && frames[index + offset].complete && frames[index + offset].naturalWidth > 0) {
+                return frames[index + offset];
+            }
+            if (frames[index - offset] && frames[index - offset].complete && frames[index - offset].naturalWidth > 0) {
+                return frames[index - offset];
+            }
+        }
+        return null;
+    }
+
     // ─── Draw Frame (handles DPR correctly) ───
     function drawFrame(frameIndex) {
-        if (!ctx || !frames[frameIndex] || !frames[frameIndex].complete) return;
+        const img = getValidFrame(frameIndex);
+        if (!ctx || !img) return;
 
-        const img = frames[frameIndex];
         const bufW = canvas.width;
         const bufH = canvas.height;
 
@@ -167,14 +192,14 @@
             scrollHint.style.opacity = scrollFraction > 0.02 ? '0' : '1';
         }
 
-        // Show callouts when near the end (>80%)
+        // Show callouts when near the end (>70%)
         if (callouts) {
-            callouts.classList.toggle(`${pfx}-callouts--visible`, scrollFraction > 0.80);
+            callouts.classList.toggle(`${pfx}-callouts--visible`, scrollFraction > 0.70);
         }
 
-        // Show bottom CTA at >92%
+        // Show bottom CTA at >88%
         if (bottom) {
-            bottom.classList.toggle(`${pfx}-bottom--visible`, scrollFraction > 0.92);
+            bottom.classList.toggle(`${pfx}-bottom--visible`, scrollFraction > 0.88);
         }
     }
 

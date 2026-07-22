@@ -80,15 +80,13 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Eco Terrazzo',
                 'slug' => 'eco-terrazzo',
-                'description' => 'Ubin terrazzo ramah lingkungan yang dibuat dari pecahan kaca, keramik, dan plastik daur ulang. Cocok sebagai alas pot, coaster, atau dekorasi meja. Setiap keping unik dengan pattern berbeda.',
+                'description' => 'Coaster dan ubin terrazzo ramah lingkungan yang terbuat dari matriks resin berkualitas dan matriks plastik cacah daur ulang. Tahan panas, kokoh, dan berestetika tinggi.',
                 'category' => 'kriya',
                 'price' => 55000,
                 'model_type' => 'terrazzo',
                 'waste_composition' => [
-                    ['name' => 'Pecahan Kaca', 'percentage' => 35, 'color' => '#87CEEB'],
-                    ['name' => 'Pecahan Keramik', 'percentage' => 25, 'color' => '#CD853F'],
-                    ['name' => 'Semen Daur Ulang', 'percentage' => 25, 'color' => '#808080'],
-                    ['name' => 'Plastik Cacah', 'percentage' => 15, 'color' => '#FF6347'],
+                    ['name' => 'Resin Eco-Matrix', 'percentage' => 60, 'color' => '#d4cdc5'],
+                    ['name' => 'Plastik Cacah', 'percentage' => 40, 'color' => '#3b5e43'],
                 ],
                 'image' => 'products/FRJClhO6efm30vOWNcM8zG8oeppCEdhzFnynIeNF.jpg',
             ],

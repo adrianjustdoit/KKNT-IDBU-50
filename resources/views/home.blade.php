@@ -17,20 +17,20 @@
     </div>
     <div class="hero__overlay"></div>
     <div class="hero__particles">
-        <span class="particle particle--leaf" style="left: 10%; animation-duration: 15s; animation-delay: 0s;">🍃</span>
+        <span class="particle particle--dot" style="left: 10%; animation-duration: 15s; animation-delay: 0s;"></span>
         <span class="particle particle--dot" style="left: 20%; animation-duration: 25s; animation-delay: 5s;"></span>
-        <span class="particle particle--recycle" style="left: 35%; animation-duration: 18s; animation-delay: 2s;">♻️</span>
+        <span class="particle particle--dot" style="left: 35%; animation-duration: 18s; animation-delay: 2s;"></span>
         <span class="particle particle--dot" style="left: 50%; animation-duration: 20s; animation-delay: 8s;"></span>
-        <span class="particle particle--leaf" style="left: 65%; animation-duration: 16s; animation-delay: 1s;">🍂</span>
+        <span class="particle particle--dot" style="left: 65%; animation-duration: 16s; animation-delay: 1s;"></span>
         <span class="particle particle--dot" style="left: 80%; animation-duration: 22s; animation-delay: 4s;"></span>
-        <span class="particle particle--recycle" style="left: 90%; animation-duration: 19s; animation-delay: 6s;">♻️</span>
+        <span class="particle particle--dot" style="left: 90%; animation-duration: 19s; animation-delay: 6s;"></span>
     </div>
 
     <div class="hero__content">
         <div class="hero__badge-row" data-aos="fade-down">
-            <span class="hero__badge">♻️ Reduce</span>
-            <span class="hero__badge">🔄 Reuse</span>
-            <span class="hero__badge">🌱 Recycle</span>
+            <span class="hero__badge">Reduce</span>
+            <span class="hero__badge">Reuse</span>
+            <span class="hero__badge">Recycle</span>
         </div>
 
         <h1 class="hero__title" data-aos="fade-up">
@@ -65,7 +65,7 @@
 <section class="section section--white video-section" id="video" style="padding-bottom: 0;">
     <div class="container">
         <div class="section__header" data-aos="fade-up" style="margin-bottom: 0;">
-            <span class="section__label">🎬 Kenali Kami</span>
+            <span class="section__label">Kenali Kami</span>
             <h2 class="section__title">Video Profil Rowosari</h2>
             <p class="section__subtitle">Mengenal lebih dekat program pengelolaan sampah 3R di Kelurahan Rowosari</p>
         </div>
@@ -134,7 +134,7 @@
             </div>
 
             <div class="about__text" data-aos="fade-left">
-                <span class="section__label">🌿 Tentang Program</span>
+                <span class="section__label">Tentang Program</span>
                 <h2>Mengubah Sampah Menjadi Berkah</h2>
                 <p>{{ $settings['tentang_text'] ?? 'Program KKN Kelurahan Rowosari berfokus pada pengelolaan sampah berbasis 3R.' }}</p>
                 <a href="#katalog" class="btn btn-outline-dark">
@@ -194,7 +194,7 @@
 <section class="section section--sand" id="berita" style="background: var(--color-sand);">
     <div class="container">
         <div class="section__header" data-aos="fade-up">
-            <span class="section__label">📰 Update KKN</span>
+            <span class="section__label">Update KKN</span>
             <h2 class="section__title">Berita Harian</h2>
             <p class="section__subtitle" style="margin-bottom: var(--space-md);">Ikuti perkembangan program dan kegiatan KKN-T IDBU 50 di Kelurahan Rowosari</p>
             <a href="{{ route('news.index') }}" class="btn btn-outline-dark" style="border-radius: 30px; padding: 6px 16px; display: inline-flex; align-items: center; gap: 4px; font-size: 0.9rem; color: var(--color-forest); border-color: var(--color-forest);">
@@ -258,7 +258,7 @@
 <section class="section section--white" id="galeri">
     <div class="container-wide">
         <div class="section__header" data-aos="fade-up">
-            <span class="section__label">📸 Galeri</span>
+            <span class="section__label">Galeri</span>
             <h2 class="section__title">Dokumentasi Kegiatan</h2>
             <p class="section__subtitle">Momen-momen kegiatan KKN di Kelurahan Rowosari</p>
         </div>
@@ -324,7 +324,7 @@
 <section class="section section--cream" id="katalog">
     <div class="container">
         <div class="section__header" data-aos="fade-up">
-            <span class="section__label">🛒 Katalog</span>
+            <span class="section__label">Katalog</span>
             <h2 class="section__title">Produk 3R Kami</h2>
             <p class="section__subtitle">Produk ramah lingkungan hasil kreativitas warga Kelurahan Rowosari</p>
         </div>
@@ -352,7 +352,7 @@
                         @endif
 
                         <span class="product-card__badge product-card__badge--{{ $product->category }}">
-                            {{ $product->category === 'organik' ? '🌱 Organik' : '✂️ Kriya' }}
+                            {{ $product->category === 'organik' ? 'Organik' : 'Kriya' }}
                         </span>
                     </div>
 
@@ -370,8 +370,7 @@
                                    style="background: linear-gradient(135deg, var(--color-forest), var(--color-amber)); color: white;">
                                     <span class="material-symbols-outlined">layers</span>
                                 </a>
-                                @endif
-                                @if(str_contains(strtolower($product->name), 'coaster') || str_contains(strtolower($product->name), 'terrazzo'))
+                                @elseif(str_contains(strtolower($product->name), 'coaster') || str_contains(strtolower($product->name), 'terrazzo'))
                                 <a href="{{ route('coaster.eksplorasi') }}"
                                    class="product-card__3d-btn"
                                    title="Eksplorasi Coaster"
@@ -379,13 +378,21 @@
                                    style="background: linear-gradient(135deg, var(--color-forest), var(--color-amber)); color: white;">
                                     <span class="material-symbols-outlined">layers</span>
                                 </a>
-                                @endif
-                                @if($product->model_type)
-                                <a href="{{ route('product.3d', $product->slug) }}"
+                                @elseif(str_contains(strtolower($product->name), 'keychain') || str_contains(strtolower($product->name), 'gantungan'))
+                                <a href="{{ route('keychain.eksplorasi') }}"
                                    class="product-card__3d-btn"
-                                   title="Lihat Model 3D"
-                                   onclick="event.stopPropagation();">
-                                    <span class="material-symbols-outlined">view_in_ar</span>
+                                   title="Eksplorasi Keychain"
+                                   onclick="event.stopPropagation();"
+                                   style="background: linear-gradient(135deg, var(--color-forest), var(--color-amber)); color: white;">
+                                    <span class="material-symbols-outlined">layers</span>
+                                </a>
+                                @else
+                                <a href="{{ route('coaster.eksplorasi') }}"
+                                   class="product-card__3d-btn"
+                                   title="Eksplorasi Produk"
+                                   onclick="event.stopPropagation();"
+                                   style="background: linear-gradient(135deg, var(--color-forest), var(--color-amber)); color: white;">
+                                    <span class="material-symbols-outlined">layers</span>
                                 </a>
                                 @endif
                                 <button class="product-card__action" aria-label="Lihat detail">

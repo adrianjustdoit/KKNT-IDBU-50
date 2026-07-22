@@ -379,142 +379,145 @@ function createKomposModel(scene) {
     return group;
 }
 
-// =================== TERRAZZO MODEL ===================
+// =================== TERRAZZO MODEL (ECOTERRAZZO COASTER) ===================
 function createTerrazzoModel(scene) {
     const group = new THREE.Group();
 
-    // Main terrazzo slab
-    const slabGeo = new THREE.CylinderGeometry(1.3, 1.3, 0.25, 32);
-    const slabMat = new THREE.MeshStandardMaterial({
-        color: 0xd4cdc5,
-        roughness: 0.3,
-        metalness: 0.05,
-    });
-    const slab = new THREE.Mesh(slabGeo, slabMat);
-    slab.position.y = 0.125;
-    slab.castShadow = true;
-    slab.receiveShadow = true;
-    group.add(slab);
+    // 1. Procedural Terrazzo Canvas Texture Generator
+    function generateProceduralTerrazzoTexture() {
+        const canvas = document.createElement('canvas');
+        const size = 1024;
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
 
-    // Terrazzo chips embedded in slab surface
-    const chipColors = [
-        0x87CEEB, // glass blue
-        0xCD853F, // ceramic brown
-        0xFF6347, // plastic red
-        0x98FB98, // green glass
-        0xDDA0DD, // purple
-        0xFFD700, // golden
-        0x4a7c59, // eco green
-        0xf0e8d8, // cream
-        0x808080, // grey
-        0xB22222, // dark red
-    ];
+        // Pale cement-resin base color
+        ctx.fillStyle = '#e5dfd5';
+        ctx.fillRect(0, 0, size, size);
 
-    for (let i = 0; i < 80; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const radius = Math.random() * 1.15;
-        const chipSize = 0.04 + Math.random() * 0.08;
+        // Cement texture noise
+        const imgData = ctx.getImageData(0, 0, size, size);
+        const data = imgData.data;
+        for (let i = 0; i < data.length; i += 4) {
+            const noise = (Math.random() - 0.5) * 8;
+            data[i] = Math.min(255, Math.max(0, data[i] + noise));
+            data[i+1] = Math.min(255, Math.max(0, data[i+1] + noise));
+            data[i+2] = Math.min(255, Math.max(0, data[i+2] + noise));
+        }
+        ctx.putImageData(imgData, 0, 0);
 
-        // Random shape: some round, some angular
-        let chipGeo;
-        const shapeRng = Math.random();
-        if (shapeRng < 0.4) {
-            chipGeo = new THREE.SphereGeometry(chipSize, 5, 5);
-            chipGeo.scale(1 + Math.random() * 0.5, 0.3, 1 + Math.random() * 0.5);
-        } else if (shapeRng < 0.7) {
-            chipGeo = new THREE.BoxGeometry(
-                chipSize * (1 + Math.random()),
-                chipSize * 0.5,
-                chipSize * (1 + Math.random())
-            );
-        } else {
-            chipGeo = new THREE.CylinderGeometry(chipSize, chipSize, chipSize * 0.4, 5 + Math.floor(Math.random() * 3));
+        // Palette: moss green, warm sand, amber, forest-ink
+        const speckleColors = [
+            '#3b5e43', // moss green
+            '#4d6953', // muted moss
+            '#cfa976', // warm sand
+            '#dfb46c', // amber
+            '#1e2d27', // forest-ink
+            '#293630', // dark forest
+            '#bfa178', // sand
+        ];
+
+        // Polygonal speckle chunks
+        const totalSpeckles = 180;
+        for (let i = 0; i < totalSpeckles; i++) {
+            const cx = Math.random() * size;
+            const cy = Math.random() * size;
+            const numSides = 4 + Math.floor(Math.random() * 4);
+            const baseRadius = (Math.random() < 0.3) 
+                ? 14 + Math.random() * 18 
+                : 4 + Math.random() * 8;
+
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(Math.random() * Math.PI * 2);
+
+            ctx.beginPath();
+            for (let s = 0; s < numSides; s++) {
+                const angle = (s / numSides) * Math.PI * 2;
+                const r = baseRadius * (0.65 + Math.random() * 0.7);
+                const px = Math.cos(angle) * r;
+                const py = Math.sin(angle) * r;
+                if (s === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+
+            ctx.fillStyle = speckleColors[Math.floor(Math.random() * speckleColors.length)];
+            ctx.fill();
+            ctx.restore();
         }
 
-        const color = chipColors[Math.floor(Math.random() * chipColors.length)];
-        const chipMat = new THREE.MeshStandardMaterial({
-            color: color,
-            roughness: 0.25 + Math.random() * 0.3,
-            metalness: Math.random() * 0.1,
-        });
-        const chip = new THREE.Mesh(chipGeo, chipMat);
-        chip.position.set(
-            Math.cos(angle) * radius,
-            0.2 + Math.random() * 0.04,
-            Math.sin(angle) * radius
-        );
-        chip.rotation.set(
-            Math.random() * 0.3,
-            Math.random() * Math.PI * 2,
-            Math.random() * 0.3
-        );
-        group.add(chip);
+        return new THREE.CanvasTexture(canvas);
     }
 
-    // Polish/gloss layer on top
-    const glossGeo = new THREE.CylinderGeometry(1.3, 1.3, 0.01, 32);
-    const glossMat = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        transparent: true,
-        opacity: 0.08,
-        roughness: 0.0,
-        metalness: 0.3,
-    });
-    const gloss = new THREE.Mesh(glossGeo, glossMat);
-    gloss.position.y = 0.25;
-    group.add(gloss);
+    // 2. Geometry: Circular coaster ~10 cm dia, ~1 cm thick with chamfered edges
+    const radius = 1.3;
+    const height = 0.26;
+    const segments = 64;
+    const edgeRadius = 0.03;
 
-    // Edge bevel ring
-    const edgeGeo = new THREE.TorusGeometry(1.3, 0.02, 8, 64);
-    const edgeMat = new THREE.MeshStandardMaterial({
-        color: 0xa0a0a0,
-        roughness: 0.4,
-        metalness: 0.3,
-    });
-    const edgeTop = new THREE.Mesh(edgeGeo, edgeMat);
-    edgeTop.position.y = 0.25;
-    edgeTop.rotation.x = Math.PI / 2;
-    group.add(edgeTop);
+    const profilePoints = [];
+    profilePoints.push(new THREE.Vector2(0, 0));
+    profilePoints.push(new THREE.Vector2(radius - edgeRadius, 0));
+    profilePoints.push(new THREE.Vector2(radius, edgeRadius));
+    profilePoints.push(new THREE.Vector2(radius, height - edgeRadius));
+    profilePoints.push(new THREE.Vector2(radius - edgeRadius, height));
+    profilePoints.push(new THREE.Vector2(0, height));
 
-    const edgeBottom = new THREE.Mesh(edgeGeo, edgeMat);
-    edgeBottom.position.y = 0.0;
-    edgeBottom.rotation.x = Math.PI / 2;
-    group.add(edgeBottom);
+    const coasterGeo = new THREE.LatheGeometry(profilePoints, segments);
 
-    // Second smaller terrazzo piece tilted beside the main one
-    const slab2Geo = new THREE.CylinderGeometry(0.6, 0.6, 0.2, 6);
-    const slab2Mat = new THREE.MeshStandardMaterial({
-        color: 0xc8c0b8,
-        roughness: 0.35,
-        metalness: 0.05,
-    });
-    const slab2 = new THREE.Mesh(slab2Geo, slab2Mat);
-    slab2.position.set(1.6, 0.15, 0.8);
-    slab2.rotation.z = 0.15;
-    slab2.castShadow = true;
-    group.add(slab2);
+    // 3. Subtle edge chipping / imperfections
+    const posAttr = coasterGeo.attributes.position;
+    const chipSpots = [
+        { angle: Math.PI * 0.25, size: 0.15 },
+        { angle: Math.PI * 1.1, size: 0.12 },
+        { angle: Math.PI * 1.7, size: 0.18 }
+    ];
 
-    // Chips on second piece
-    for (let i = 0; i < 15; i++) {
-        const chipSize = 0.02 + Math.random() * 0.04;
-        const chipGeo2 = new THREE.SphereGeometry(chipSize, 4, 4);
-        chipGeo2.scale(1, 0.3, 1);
-        const color = chipColors[Math.floor(Math.random() * chipColors.length)];
-        const chip2 = new THREE.Mesh(chipGeo2, new THREE.MeshStandardMaterial({
-            color, roughness: 0.3,
-        }));
-        const a2 = Math.random() * Math.PI * 2;
-        const r2 = Math.random() * 0.45;
-        chip2.position.set(
-            1.6 + Math.cos(a2) * r2,
-            0.24,
-            0.8 + Math.sin(a2) * r2
-        );
-        group.add(chip2);
+    for (let i = 0; i < posAttr.count; i++) {
+        const x = posAttr.getX(i);
+        const y = posAttr.getY(i);
+        const z = posAttr.getZ(i);
+        const currentAngle = Math.atan2(z, x);
+        const distFromCenter = Math.sqrt(x*x + z*z);
+
+        if (distFromCenter > radius * 0.88) {
+            chipSpots.forEach(chip => {
+                let diff = Math.abs(currentAngle - chip.angle);
+                if (diff > Math.PI) diff = Math.PI * 2 - diff;
+
+                if (diff < chip.size) {
+                    const factor = 1 - (diff / chip.size);
+                    const indent = factor * 0.02 * (Math.sin(y * 20) * 0.5 + 0.5);
+                    posAttr.setX(i, x * (1 - indent * 0.03));
+                    posAttr.setZ(i, z * (1 - indent * 0.03));
+                    posAttr.setY(i, y - indent * 0.04);
+                }
+            });
+        }
     }
+    coasterGeo.computeVertexNormals();
 
-    group.position.y = -0.15;
-    group.userData.baseY = -0.15;
+    // 4. Matte Terrazzo Material
+    const terrazzoTexture = generateProceduralTerrazzoTexture();
+    terrazzoTexture.wrapS = THREE.RepeatWrapping;
+    terrazzoTexture.wrapT = THREE.RepeatWrapping;
+
+    const coasterMat = new THREE.MeshStandardMaterial({
+        map: terrazzoTexture,
+        roughness: 0.88,     // Matte finish
+        metalness: 0.02,     // Handmade cement-resin feel
+        bumpMap: terrazzoTexture,
+        bumpScale: 0.003,
+    });
+
+    const coasterMesh = new THREE.Mesh(coasterGeo, coasterMat);
+    coasterMesh.castShadow = true;
+    coasterMesh.receiveShadow = true;
+    group.add(coasterMesh);
+
+    group.position.y = 0;
+    group.userData.baseY = 0;
     scene.add(group);
     return group;
 }

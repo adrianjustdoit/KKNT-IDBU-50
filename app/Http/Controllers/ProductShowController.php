@@ -35,4 +35,13 @@ class ProductShowController extends Controller
             'totalFrames' => $totalFrames,
         ]);
     }
+
+    public function eksplorasiKeychain()
+    {
+        $totalFrames = count(glob(public_path('images/keychain-frames/frame-*.png')));
+
+        return view('keychain-eksplorasi', [
+            'totalFrames' => $totalFrames,
+        ]);
+    }
 }
